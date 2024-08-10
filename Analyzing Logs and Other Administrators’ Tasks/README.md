@@ -66,4 +66,16 @@
        Get-ChildItem -Directory |
            Select-Object Name,
                @{ Name="Size";
-               Expression={ ($_ | Get-ChildItem -Rec
+               Expression={ ($_ | Get-ChildItem -Recurse |
+                   Measure-Object -Sum Length).Sum + 0 } }
+   }
+   ## Otherwise, we just find all directories below the current directory,
+   ## and determine their size
+   else
+   {
+       Get-ChildItem -Recurse -Directory |
+           Select-Object FullName,
+               @{ Name="Size";
+               Expression={ ($_ | Get-ChildItem |
+                   Measure-Object -Sum Length).Sum + 0 } }
+   }

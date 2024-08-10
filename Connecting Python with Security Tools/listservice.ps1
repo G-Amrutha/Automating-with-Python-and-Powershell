@@ -1,0 +1,1 @@
+﻿Get-Service | Where-Object {$_.Status -EQ "Running"} | Export-Csv -Path .\service.csv
